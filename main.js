@@ -42,6 +42,7 @@ $(document).ready(function() {
   $('#redditForm').submit(async function(e) {
     e.preventDefault();
     $('#error').css('display', 'none');
+    $('#results').css('opacity', 0);
     $('.loader').css('display', 'block');
     let subreddit = $(this).find('input[name="subreddit"]').val();
 
