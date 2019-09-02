@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Reddit Finder</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Livvic|Comfortaa&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="main.css">
+  </head>
+  <body>
+    <div class="header">
+      <div class="title">
+        <i class="fab fa-reddit-alien"></i>
+        Reddit Finder
+      </div>
+      <form id="redditForm">
+        <input type="text" name="subreddit" placeholder="Enter a topic...">
+        <button type="submit">Go!</button>
+      </form>
+    </div>
+
+    <div class="loader">Loading...</div>
+    <div id="results"></div>
+    <div id="error">
+      <i class="fas fa-sad-cry"></i><br/>
+      Darn, there are no results for your search...<br/>
+      Try again!
+    </div>
+
+    <template id="result-template">
+      <div id="topData">
+        Showing results for "{{ subreddit }}"<br>
+        {{ subscribers }} Subscribers
+      </div>
+      {{#each result}}
+        <div class="result">
+          {{#hasImage data.url}}
+            <img src="{{ getImage data.url }}" alt="Image for {{ trimTitle data.title }}">
+          {{/hasImage}}
+          <div class="resultContent">
+            <div class="resultTitle">
+              <a href="{{ getUrl data.permalink }}" target="_blank">{{ trimTitle data.title }}</a>
+            </div>
+            <div class="author">By: {{ data.author }}</div>
+          </div>
+          <div class="topContent">
+            {{#if data.num_comments}}
+              <div class="resultNumComments">Comments: {{ parseNum data.num_comments }}</div>
+            {{else}}
+              <div></div>
+            {{/if}}
+            <div class="resultScore">Score: {{ data.score }}</div>
+          </div>
+          {{#hasImage data.url}}
+            <div class="resultOverlay"></div>
+          {{else}}
+            <div class="fullOverlay"></div>
+          {{/hasImage}}
+        </div>
+      {{/each}}
+    </template>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="handlebars-v4.1.2.js"></script>
+    <script src="moment.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>
